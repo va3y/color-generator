@@ -2,7 +2,6 @@
   <div
     class="flex-col m-auto my-10 md:m-auto md:mx-10 h-1/2 w-4/6 rounded-3xl p-10 z-50 border-gray-300 border border-opacity-20 shadow-xl"
     id="backdrop-blur"
-
   >
     <div
       class="bg-white bg-opacity-20 rounded-xl h-12 p-2 flex content-center justify-between"
@@ -35,7 +34,7 @@
         min="3"
         max="10"
         step="1"
-        class="rounded-md "
+        class="rounded-md"
       />
     </div>
     <div
@@ -66,19 +65,36 @@
         step="0.01"
       />
     </div>
-
-    <label for="show-bg">Show background</label>
-    <input type="checkbox" name="show-bg" v-model="showBg" />
-
+    <div>
+      <label for="show-bg">Show background</label>
+      <input type="checkbox" name="show-bg" v-model="showBg" />
+    </div>
+    <div>
+      <label>
+        <input
+          type="radio"
+          name="scaleOrDarken"
+          :value="true"
+          class="hidden"
+          v-model="scaleOrDarken"
+          @click="scaleOrDarken = true"
+        />
+        Scale |
+      </label>
+      <label>
+        <input
+          type="radio"
+          name="scaleOrDarken"
+          :value="false"
+          class="hidden"
+          v-model="scaleOrDarken"
+          @click="scaleOrDarken = false"
+        />
+        Darken</label
+      >
+    </div>
     <button
-      @click="
-        $emit('changeColors', {
-          colorModel,
-          colorsNum,
-          setSaturation,
-          setLightness,
-        })
-      "
+      @click="emitColorChangeEvent()"
       class="bg-white p-5 bg-opacity-10 rounded-2xl"
     >
       Generate New Gradient
@@ -108,22 +124,41 @@ export default {
     const setSaturation = ref(0.5);
     const setLightness = ref(0.5);
     const showBg = ref(false);
+    const scaleOrDarken = ref(true);
 
-    watch([colorModel, colorsNum], ([colorModel, colorsNum]) => {
+    const emitColorChangeEvent = () => {
       context.emit("changeColors", {
-        colorModel,
-        colorsNum,
+        colorModel: colorModel.value,
+        colorsNum: colorsNum.value,
         setSaturation: setSaturation.value,
         setLightness: setLightness.value,
       });
-    });
+    };
 
-    watch([setSaturation, setLightness], ([setSaturation, setLightness]) => {
-      context.emit("re-shade", {
-        setSaturation,
-        setLightness,
-      });
+    window.addEventListener("keyup", function (event) {
+      if (event.keyCode === 32) {
+        emitColorChangeEvent();
+      }
     });
+    watch(
+      [colorModel, colorsNum, setSaturation, setLightness, scaleOrDarken],
+      ([colorModel, colorsNum, setSaturation, setLightness, scaleOrDarken]) => {
+        context.emit("changeColors", {
+          colorModel,
+          colorsNum,
+          setSaturation,
+          setLightness,
+          scaleOrDarken,
+        });
+      }
+    );
+
+    // watch([setSaturation, setLightness], ([setSaturation, setLightness]) => {
+    //   context.emit("re-shade", {
+    //     setSaturation,
+    //     setLightness,
+    //   });
+    // });
 
     return {
       generateNewGradient,
@@ -132,6 +167,8 @@ export default {
       setLightness,
       setSaturation,
       showBg,
+      scaleOrDarken,
+      emitColorChangeEvent,
     };
   },
 };

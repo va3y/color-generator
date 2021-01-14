@@ -1,33 +1,64 @@
 import chroma from "chroma-js";
+import { hsluvToHex } from "hsluv";
 
 export default class ColorGenerator {
-  constructor(hueNumber, totalColorsNumber, saturation, lightness) {
+  constructor(
+    hueNumber,
+    totalColorsNumber,
+    saturation,
+    lightness,
+    scaleOrDarken
+  ) {
     saturation = parseFloat(saturation);
     lightness = parseFloat(lightness);
-    console.log(saturation);
-    console.log(lightness);
     this.baseHueArray = this._generateBaseHueArray(hueNumber);
-    this.RGBColorArray = this._generateShades(
+    const baseColors = this._generateBaseColors(
       this.baseHueArray,
-      totalColorsNumber,
       saturation,
       lightness
     );
-    this.HexColorArray = this.HSLToHex(this.RGBColorArray);
+    if (scaleOrDarken) {
+      this.RGBColorArray = this.generateShades(baseColors, totalColorsNumber);
+    } else {
+      this.RGBColorArray = this.darken(baseColors, totalColorsNumber);
+    }
+
+
+    //this.HexColorArray = this.HSLToHex(this.RGBColorArray);
   }
 
   static correntLightnessAndSaturation(colorsArr, saturation, lightness) {
-    console.log('ping')
     const outputArr = [];
     for (let i = 0; i < colorsArr.length; i++) {
-      outputArr.push(
-        chroma(colorsArr[i])
-          .set("hsl.s", saturation)
-          .set("hsl.l", lightness)
-          .rgb(true)
-      );
+      // let newHSL = chroma(...colorsArr[i]).hsl();
+      // newHSL[1] = saturation*100;
+      // newHSL[2] = lightness*100;
+      // console.log('new hsl is ',newHSL);
+      // const newHEX = hsluvToHex([newHSL[0], newHSL[1], newHSL[2]]);
+      // const newRGB = chroma(newHEX).rgb();
+      // console.log(newRGB);
+      // outputArr.push(newRGB);
+      // console.log(colorsArr[i]);
+      // console.log(saturation);
+      // console.log(lightness);
+      // const newHSLUV = rgbToHsluv([colorsArr[i][0]/255, colorsArr[i][1]/255, colorsArr[i][2]/255]);
+      // newHSLUV[1] = saturation*100;
+      // newHSLUV[2] = lightness*100;
+      // console.log('NEW HSLUC',newHSLUV);
+      // const newHex = hsluvToHex(newHSLUV);
+      // const newRGB = chroma(newHex).rgb();
+      // console.log(newRGB);
+      // outputArr.push(newRGB);
+
+      const newColor = chroma(colorsArr[i])
+        .set("hsl.s", saturation)
+        .set("hsl.l", lightness)
+        .rgb(true);
+      console.log(newColor);
+
+      outputArr.push(newColor);
     }
-    return outputArr
+    return outputArr;
   }
 
   _createHSL(hue, saturation, lightness) {
@@ -42,7 +73,7 @@ export default class ColorGenerator {
     //360 is total! :)
     let outputArr = [];
 
-    const randomHue = Math.floor(Math.random() * 360);
+    const randomHue = Math.floor(Math.random() * 250);
     outputArr.push(randomHue);
     let color;
     for (let i = 1; i < hueNumber; i++) {
@@ -53,33 +84,37 @@ export default class ColorGenerator {
     return outputArr;
   }
 
-  _generateShades(huesArray, shadesNumber, saturation, lightness) {
-    //const extraFadesNumber = shadesNumber - huesArray.length;
-    // let totalCounter = 0;
-    // let curr = 0;
-    // while (totalCounter < extraFadesNumber * 2 - 1) {
+  //const extraFadesNumber = shadesNumber - huesArray.length;
+  // let totalCounter = 0;
+  // let curr = 0;
+  // while (totalCounter < extraFadesNumber * 2 - 1) {
 
-    //   console.log(curr);
-    //   console.log("LENGTH IS", huesArray.length);
-    //   if (curr >= huesArray.length) {
-    //     curr = curr - huesArray.length;
-    //   }
-    //   const initialShade = huesArray[curr];
-    //   const newShade = {
-    //     hue: initialShade.hue - 20,
-    //     saturation: initialShade.saturation - 0.2,
-    //     lightness: initialShade.lightness,
-    //   };
-    //   huesArray.splice(huesArray[curr+1], 0, newShade);
+  //   console.log(curr);
+  //   console.log("LENGTH IS", huesArray.length);
+  //   if (curr >= huesArray.length) {
+  //     curr = curr - huesArray.length;
+  //   }
+  //   const initialShade = huesArray[curr];
+  //   const newShade = {
+  //     hue: initialShade.hue - 20,
+  //     saturation: initialShade.saturation - 0.2,
+  //     lightness: initialShade.lightness,
+  //   };
+  //   huesArray.splice(huesArray[curr+1], 0, newShade);
 
-    //   totalCounter += 2;
-    //   curr += 2;
-    // }
+  //   totalCounter += 2;
+  //   curr += 2;
+  // }
 
-    //Let's try chroma scale here!
+  //Let's try chroma scale here!
+  _generateBaseColors(huesArray, saturation, lightness) {
     const baseColors = [];
     for (let i = 0; i < huesArray.length; i++) {
-      baseColors.push(chroma.hsl(huesArray[i], saturation, lightness));
+      baseColors.push(
+        chroma(
+          hsluvToHex([huesArray[i], saturation * 100, lightness * 100])
+        ).rgb()
+      );
     }
 
     if (baseColors.length === 1) {
@@ -87,10 +122,60 @@ export default class ColorGenerator {
       baseColors.unshift(chroma("white"));
     }
 
+    baseColors.map((c) => {
+      return chroma(c).rgb();
+    });
+
+    return baseColors;
+  }
+
+  generateShades(baseColors, shadesNumber) {
     const basescale = chroma.scale(baseColors).mode("lab");
     const outputArr = [];
     for (let i = 0; i < shadesNumber; i++) {
       outputArr.push(basescale(i / shadesNumber).rgb());
+    }
+    return outputArr;
+  }
+
+  darken(baseColors, shadesNumber) {
+    let outputArr = baseColors;
+
+    // LAB scale
+    // const basescale = chroma.scale(baseColors).mode("lab");
+    // const outputArr = [];
+    // for (let i = 0; i < shadesNumber; i++) {
+    //   outputArr.push(basescale(i / shadesNumber).rgb());
+    // }
+    let counter = 0;
+
+    // for (let i = 0; i < baseColors.length; i++) {
+    //   outputArr.push(baseColors[i]);
+    //   counter = 0;
+    //   while (
+    //     counter <
+    //     (shadesNumber - baseColors.length) / baseColors.length - 1
+    //   ) {
+    //     outputArr.push(
+    //       chroma(baseColors[i])
+    //         .darken(0.5*(counter+1))
+    //         .rgb()
+    //     );
+    //     counter++;
+    //   }
+    // }
+
+    while (counter < baseColors.length * 2) {
+      if (counter * 2 >= shadesNumber) {
+        break;
+      }
+      const rand = Math.random();
+      const darkenedColor = chroma(outputArr[counter])
+        .darken(rand)
+        //.desaturate(0.2)
+        .rgb();
+      outputArr.splice(counter, 0, darkenedColor);
+      counter += 2;
     }
 
     return outputArr;

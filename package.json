@@ -9,7 +9,10 @@
   },
   "dependencies": {
     "chroma-js": "^2.1.0",
+    "color-name-list": "^7.30.0",
     "core-js": "^3.6.5",
+    "hsluv": "^0.1.0",
+    "nearest-color": "^0.4.4",
     "tailwindcss-filters": "^3.0.0",
     "vue": "^3.0.0"
   },
