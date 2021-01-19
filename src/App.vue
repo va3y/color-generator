@@ -14,13 +14,19 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
 #app {
-  font-family: Calibri, Helvetica, Arial, sans-serif;
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   align-content: center;
-  color: #2c3e50;
+  color: rgb(37, 37, 37);
+  padding: 0px;
+  margin: 0px
 }
+
+
 
 #app{
 --gradient0: #ff00ff;
@@ -30,6 +36,7 @@ export default {
 --gradient4: #ff00ff;
 --gradient5: #ff00ff;
 --gradient6: #ff00ff;
+box-sizing: border-box;
 
  background-attachment: fixed;
 

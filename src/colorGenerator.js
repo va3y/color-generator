@@ -1,5 +1,6 @@
 import chroma from "chroma-js";
 import { hsluvToHex } from "hsluv";
+import seedrandom from "seedrandom";
 
 export default class ColorGenerator {
   constructor(
@@ -7,8 +8,10 @@ export default class ColorGenerator {
     totalColorsNumber,
     saturation,
     lightness,
-    scaleOrDarken
+    scaleOrDarken,
+    seed
   ) {
+    this.seed = seed
     saturation = parseFloat(saturation);
     lightness = parseFloat(lightness);
     this.baseHueArray = this._generateBaseHueArray(hueNumber);
@@ -22,7 +25,6 @@ export default class ColorGenerator {
     } else {
       this.RGBColorArray = this.darken(baseColors, totalColorsNumber);
     }
-
 
     //this.HexColorArray = this.HSLToHex(this.RGBColorArray);
   }
@@ -54,7 +56,6 @@ export default class ColorGenerator {
         .set("hsl.s", saturation)
         .set("hsl.l", lightness)
         .rgb(true);
-      console.log(newColor);
 
       outputArr.push(newColor);
     }
@@ -71,9 +72,12 @@ export default class ColorGenerator {
 
   _generateBaseHueArray(hueNumber) {
     //360 is total! :)
+    const randomFromSeed = seedrandom(this.seed)();
+
+    console.log(this.seed);
     let outputArr = [];
 
-    const randomHue = Math.floor(Math.random() * 250);
+    const randomHue = Math.floor(randomFromSeed * 360);
     outputArr.push(randomHue);
     let color;
     for (let i = 1; i < hueNumber; i++) {
@@ -132,6 +136,7 @@ export default class ColorGenerator {
   generateShades(baseColors, shadesNumber) {
     const basescale = chroma.scale(baseColors).mode("lab");
     const outputArr = [];
+    console.log(shadesNumber);
     for (let i = 0; i < shadesNumber; i++) {
       outputArr.push(basescale(i / shadesNumber).rgb());
     }
@@ -139,16 +144,6 @@ export default class ColorGenerator {
   }
 
   darken(baseColors, shadesNumber) {
-    let outputArr = baseColors;
-
-    // LAB scale
-    // const basescale = chroma.scale(baseColors).mode("lab");
-    // const outputArr = [];
-    // for (let i = 0; i < shadesNumber; i++) {
-    //   outputArr.push(basescale(i / shadesNumber).rgb());
-    // }
-    let counter = 0;
-
     // for (let i = 0; i < baseColors.length; i++) {
     //   outputArr.push(baseColors[i]);
     //   counter = 0;
@@ -165,19 +160,50 @@ export default class ColorGenerator {
     //   }
     // }
 
-    while (counter < baseColors.length * 2) {
-      if (counter * 2 >= shadesNumber) {
-        break;
-      }
-      const rand = Math.random();
-      const darkenedColor = chroma(outputArr[counter])
-        .darken(rand)
-        //.desaturate(0.2)
-        .rgb();
-      outputArr.splice(counter, 0, darkenedColor);
-      counter += 2;
+    // while (counter < baseColors.length * 2) {
+    //   if (counter * 2 >= shadesNumber) {
+    //     break;
+    //   }
+    //   const rand = Math.random();
+    //   const darkenedColor = chroma(outputArr[counter])
+    //     .darken(rand)
+    //     //.desaturate(0.2)
+    //     .rgb();
+    //   outputArr.splice(counter, 0, darkenedColor);
+    //   counter += 2;
+    // }
+
+    const initialLength = baseColors.length;
+
+    let nestedArr = [];
+
+    //create the nested array
+    for (let i = 0; i < baseColors.length; i++) {
+      nestedArr.push([baseColors[i]]);
     }
 
+    //add extra shades to each 2nd-level array
+    const extraColors = shadesNumber - initialLength;
+    for (let i = 0; i < extraColors; i++) {
+      const currColor =
+        nestedArr[i % initialLength][nestedArr[i % initialLength].length - 1];
+      //const currHue = chroma(currColor).get('hsl.h')
+      nestedArr[i % initialLength].push(
+        chroma(currColor)
+          .darken(0.5)
+          .saturate(0.3)
+          .rgb()
+      );
+    }
+    nestedArr[0].reverse();
+
+    //Destruct the 2-dim array 1-dim
+    let outputArr = [];
+    for (let colorArr of nestedArr) {
+      for (let color of colorArr) {
+        outputArr.push(color);
+      }
+    }
     return outputArr;
   }
 
