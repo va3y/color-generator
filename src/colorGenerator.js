@@ -20,7 +20,8 @@ export default class ColorGenerator {
       saturation,
       lightness
     );
-    if (scaleOrDarken) {
+    console.log("hueNumber", hueNumber);
+    if (scaleOrDarken || hueNumber === 1) {
       this.RGBColorArray = this.generateShades(baseColors, totalColorsNumber);
     } else {
       this.RGBColorArray = this.darken(baseColors, totalColorsNumber);

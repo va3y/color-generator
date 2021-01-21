@@ -6,11 +6,20 @@
     :style="'background-color: rgb(' + bar + ')'"
   >
     <transition name="fade">
-      <div v-if="showColorNames" class="ml-8 flex flex-col align-right">
-        <div>
+      <div
+        v-if="showColorNames"
+        class="cursor-pointer ml-8 flex flex-col align-right fixed"
+        @click="copy(index, getColorCode(bar))"
+      >
+        <div class="">
           {{ getColorCode(bar) }}
+          <transition name="fade">
+          <span class="ml-4" v-if="copyLabelShow[index]">
+            Copied to the clipboard
+          </span>
+          </transition>
         </div>
-        <div>
+        <div class="">
           {{ getColorName(index) }}
         </div>
       </div>
@@ -67,27 +76,35 @@ export default {
     };
     const getColorCode = (color) => {
       switch (colorCode.value) {
-        
         case "rgb": {
           const rgbArr = chroma(color).rgb().toString();
 
-          return rgbArr.replace("[", "").replace("]", "").replace(/,/g, ', ');
+          return rgbArr.replace("[", "").replace("]", "").replace(/,/g, ", ");
         }
         case "hex":
           return chroma(color).hex();
         case "lab": {
-          const labArray = 
-            chroma(color)
-              .lab()
-              .map((c) => {
-                return parseFloat(c.toFixed(2));
-              })
-        .toString();
-          return labArray.replace("[", "").replace("]", "").replace(/,/g, ', ');
+          const labArray = chroma(color)
+            .lab()
+            .map((c) => {
+              return parseFloat(c.toFixed(2));
+            })
+            .toString();
+          return labArray.replace("[", "").replace("]", "").replace(/,/g, ", ");
         }
         default:
           break;
       }
+    };
+    const copyLabelShow = ref([]);
+
+    const copy = (index, code) => {
+      navigator.clipboard.writeText(code);
+      copyLabelShow.value[index] = true;
+      setTimeout(() => {
+        copyLabelShow.value[index] = false;
+      }, 1000);
+      
     };
 
     return {
@@ -97,6 +114,8 @@ export default {
       getColorName,
       showColorNames,
       getColorCode,
+      copyLabelShow,
+      copy,
     };
   },
 };

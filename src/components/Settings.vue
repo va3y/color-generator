@@ -2,185 +2,211 @@
   <div>
     <div
       id="backdrop-blur"
-      class="select-none flex flex-col m-auto md:mx-10 h-11/12 w-10/12 md:w-96 rounded-3xl md:p-10 p-12 z-50 border-gray-300 border border-opacity-20 shadow-xl"
+      class="fixed select-none flex flex-col m-auto md:mx-10 h-12/12 w-10/12 md:w-96 rounded-3xl md:p-10 p-14 z-50 border-gray-300 border border-opacity-20 shadow-xl"
     >
-      <div class="h-28 section">
-        <div class="section-title">Color harmony</div>
-        <div class="flex justify-center align-center">
-          <label
-            for="color-model-1"
-            class="model-button"
-            :class="colorModel === 1 ? 'btn-active' : ''"
-            >Monochrome
-          </label>
-          <input
-            class="hidden"
-            id="color-model-1"
-            type="radio"
-            :value="1"
-            v-model="colorModel"
-          />
-          <label
-            for="color-model-2"
-            class="model-button"
-            :class="colorModel === 2 ? 'btn-active' : ''"
-            >Complementary
-          </label>
-        </div>
-        <div class="flex justify-center align-center">
-          <input
-            class="hidden"
-            id="color-model-2"
-            type="radio"
-            :value="2"
-            v-model="colorModel"
-          />
-          <label
-            for="color-model-3"
-            class="model-button"
-            :class="colorModel === 3 ? 'btn-active' : ''"
-            >Triad
-          </label>
-          <input
-            class="hidden"
-            id="color-model-3"
-            type="radio"
-            :value="3"
-            v-model="colorModel"
-            
-          />
-          <label
-            for="color-model-4"
-            class="model-button"
-            :class="colorModel === 4 ? 'btn-active' : ''"
-            >Square</label
-          >
-          <input
-            class="hidden"
-            id="color-model-4"
-            type="radio"
-            :value="4"
-            v-model="colorModel"
-          />
-        </div>
-      </div>
-      <div class="section h-20">
-        <div class="section-title">Shades</div>
-        <div class="flex justify-center">
-          <label
-            for="scaleOrDarken"
-            :class="[!scaleOrDarken ? 'btn-active' : '']"
-            class="model-button flex justify-center align-middle p-2 rounded-lg"
-          >
-            Darken</label
-          >
-          <input
-            id="scaleOrDarken"
-            type="radio"
-            name="scaleOrDarken"
-            :value="false"
-            class="hidden"
-            v-model="scaleOrDarken"
-            @click="scaleOrDarken = false"
-          />
-          <label
-            :class="[scaleOrDarken ? 'btn-active' : '']"
-            class="model-button flex justify-center align-middle p-2 rounded-lg"
-          >
+    <div  v-if="aboutShow" class="h-full section">
+      <About class="h-full w-full" />
+    </div>
+      <div v-else>
+        <div class="h-28 section">
+          <div class="section-title">Color harmony</div>
+          <div class="flex justify-center align-center">
+            <label
+              for="color-model-1"
+              class="model-button"
+              :class="colorModel === 1 ? 'btn-active' : ''"
+              >Monochrome
+            </label>
             <input
-              type="radio"
-              name="scaleOrDarken"
-              :value="true"
               class="hidden"
-              v-model="scaleOrDarken"
-              @click="scaleOrDarken = true"
+              id="color-model-1"
+              type="radio"
+              :value="1"
+              v-model="colorModel"
             />
-            Scale
-          </label>
-        </div>
-      </div>
-      <div class="section h-16">
-        <label for="color-model" class="section-title">Number of colors </label>
-        <input
-          class="slider"
-          type="range"
-          v-model="colorsNum"
-          id="color-model"
-          name="color-model"
-          :min="3"
-          :max="scaleOrDarken ? 10 : 6"
-          step="1"
-        />
-      </div>
-
-      <div class="section h-16">
-        <div class="section-title">Saturation</div>
-        <input
-          class="slider"
-          type="range"
-          v-model="setSaturation"
-          id="saturation"
-          name="saturation"
-          :min="0.1"
-          :max="1"
-          step="0.01"
-        />
-      </div>
-      <div class="section h-16">
-        <div class="section-title">Lightness</div>
-        <input
-          class="slider"
-          type="range"
-          v-model="setLightness"
-          id="lightness"
-          name="lightness"
-          :min="0.1"
-          :max="0.9"
-          step="0.01"
-        />
-      </div>
-      <div class="flex justify-between">
-        <label
-          for="show-bg"
-          :class="[showBg ? 'bg-white bg-opacity-40' : 'bg-white']"
-          class="mr -2 p-2 bg-opacity-20 rounded-lg"
-          >Show background
-          <input type="checkbox" id="show-bg" v-model="showBg" class="hidden" />
-        </label>
-
-        <div class="flex rounded-lg px-4 max-w-1/3 bg-white bg-opacity-20">
-          <label for="code-color" class="flex m-auto">Color code: </label>
-          <div class="select-label m-auto">
-            <select
-              v-model="colorCode"
-              id="code-color"
-              class="m-auto appearance-none outline-none border-none bg-transparent"
+            <label
+              for="color-model-2"
+              class="model-button"
+              :class="colorModel === 2 ? 'btn-active' : ''"
+              >Complementary
+            </label>
+          </div>
+          <div class="flex justify-center align-center">
+            <input
+              class="hidden"
+              id="color-model-2"
+              type="radio"
+              :value="2"
+              v-model="colorModel"
+            />
+            <label
+              for="color-model-3"
+              class="model-button"
+              :class="colorModel === 3 ? 'btn-active' : ''"
+              >Triad
+            </label>
+            <input
+              class="hidden"
+              id="color-model-3"
+              type="radio"
+              :value="3"
+              v-model="colorModel"
+            />
+            <label
+              for="color-model-4"
+              class="model-button"
+              :class="colorModel === 4 ? 'btn-active' : ''"
+              >Square</label
             >
-              <option value="hex" selected>Hex</option>
-              <option value="rgb">RGB</option>
-              <option value="lab">LAB</option>
-            </select>
+            <input
+              class="hidden"
+              id="color-model-4"
+              type="radio"
+              :value="4"
+              v-model="colorModel"
+            />
           </div>
         </div>
+        <div class="section h-20">
+          <div class="section-title">Shades</div>
+          <div class="flex justify-center">
+            <label
+              for="scaleOrDarken"
+              :class="[!scaleOrDarken ? 'btn-active' : '']"
+              class="model-button flex justify-center align-middle p-2 rounded-lg"
+            >
+              Darken</label
+            >
+            <input
+              id="scaleOrDarken"
+              type="radio"
+              name="scaleOrDarken"
+              :value="false"
+              class="hidden"
+              v-model="scaleOrDarken"
+              @click="scaleOrDarken = false"
+            />
+            <label
+              :class="[scaleOrDarken ? 'btn-active' : '']"
+              class="model-button flex justify-center align-middle p-2 rounded-lg"
+            >
+              <input
+                type="radio"
+                name="scaleOrDarken"
+                :value="true"
+                class="hidden"
+                v-model="scaleOrDarken"
+                @click="scaleOrDarken = true"
+              />
+              Scale
+            </label>
+          </div>
+        </div>
+        <div class="section h-16">
+          <label for="color-model" class="section-title"
+            >Number of colors
+          </label>
+          <input
+            class="slider"
+            type="range"
+            v-model="colorsNum"
+            id="color-model"
+            name="color-model"
+            :min="3"
+            :max="scaleOrDarken ? 10 : 6"
+            step="1"
+          />
+        </div>
+
+        <div class="section h-16">
+          <div class="section-title">Saturation</div>
+          <input
+            class="slider"
+            type="range"
+            v-model="setSaturation"
+            id="saturation"
+            name="saturation"
+            :min="0.1"
+            :max="1"
+            step="0.01"
+          />
+        </div>
+        <div class="section h-16">
+          <div class="section-title">Lightness</div>
+          <input
+            class="slider"
+            type="range"
+            v-model="setLightness"
+            id="lightness"
+            name="lightness"
+            :min="0.1"
+            :max="0.9"
+            step="0.01"
+          />
+        </div>
+        <div class="flex justify-between">
+          <label
+            for="show-bg"
+            :class="[showBg ? 'bg-white bg-opacity-40' : 'bg-white']"
+            class="mr -2 p-2 bg-opacity-20 rounded-lg"
+            >Hide background
+            <input
+              type="checkbox"
+              id="show-bg"
+              v-model="showBg"
+              class="hidden"
+            />
+          </label>
+
+          <div class="flex rounded-lg px-4 max-w-1/3 bg-white bg-opacity-20">
+            <label for="code-color" class="flex m-auto">Color code: </label>
+            <div class="select-label m-auto">
+              <select
+                v-model="colorCode"
+                id="code-color"
+                class="m-auto appearance-none outline-none border-none bg-transparent"
+              >
+                <option value="hex" selected>Hex</option>
+                <option value="rgb">RGB</option>
+                <option value="lab">LAB</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex justify-center mt-4">
+          <button
+            @click="emitReroll()"
+            class="m-auto w-1/2 bg-white bg-opacity-20 rounded-lg active:bg-gray-300 h-12"
+          >
+            Generate
+          </button>
+        </div>
       </div>
-      <div class="flex flex-col justify-center mt-4">
-        <button
-          @click="emitColorChangeEvent()"
-          class="m-auto w-1/2 bg-white bg-opacity-20 rounded-lg active:bg-gray-300 h-12"
-        >
-          Generate
-        </button>
-      </div>
+    </div>
+    <div
+      class="absolute left-24 bottom-32 z-50 md:bottom-36 md:left-20 flex flex-row-reverse mx-2"
+    >
+      <img
+        @click="changeAboutShow()"
+        src="../assets/icons/question.svg"
+        alt="question mark"
+        class="cursor-pointer opacity-50 w-7 h-7 md:w-5 md:h-5"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import { ref, watch } from "vue";
+import About from "./About.vue";
 
 export default {
   props: {
     colorsArray: Object,
+  },
+  components: {
+    About,
   },
   setup(props, context) {
     const generateNewGradient = () => {
@@ -191,8 +217,8 @@ export default {
     };
     const colorModel = ref(3);
     const colorsNum = ref(5);
-    const setSaturation = ref(0.55);
-    const setLightness = ref(0.5);
+    const setSaturation = ref(0.65);
+    const setLightness = ref(0.7);
     const showBg = ref(false);
     const scaleOrDarken = ref(false);
     const colorCode = ref("hex");
@@ -206,15 +232,13 @@ export default {
         scaleOrDarken: scaleOrDarken.value,
       });
     };
-    const emitSeedRenewal = () => {
-      context.emit("renewSeed");
+    const emitReroll = () => {
+      context.emit("reroll");
     };
 
     window.addEventListener("keyup", function (event) {
       if (event.keyCode === 32) {
-        emitSeedRenewal();
-        emitColorChangeEvent();
-        
+        emitReroll();
       }
     });
     watch(
@@ -248,6 +272,11 @@ export default {
       }
     });
 
+    const aboutShow = ref(false);
+    const changeAboutShow = () => {
+      aboutShow.value = !aboutShow.value;
+    };
+
     return {
       generateNewGradient,
       colorModel,
@@ -257,7 +286,10 @@ export default {
       showBg,
       scaleOrDarken,
       emitColorChangeEvent,
+      emitReroll,
       colorCode,
+      aboutShow,
+      changeAboutShow,
     };
   },
 };
