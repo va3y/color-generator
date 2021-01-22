@@ -5,10 +5,14 @@
     >
       <div class="mb-4">
         <h1 class="text-4xl inline mr-2">HSLuv color picker</h1>
-        <a class="text-sm text-blue-600" href="https://github.com/valerih12">by valerih21</a>
+        <a class="text-sm text-blue-600" href="https://github.com/valerih12"
+          >by valerih21</a
+        >
       </div>
 
-      <div class="mb-4">A color picker adjusted for natural human perception.</div>
+      <div class="mb-4">
+        A color picker adjusted for natural human perception.
+      </div>
       <div>
         <img
           src="../assets/graph.png"
@@ -33,15 +37,20 @@
         >
         <br />
         <br />
-        Icons taken from the
+        App icons taken from the
         <a class="text-blue-600" href="https://thenounproject.com/"
-          >Noun Project</a
+          >Noun Project.</a
         >
-        <br />
-        <br />
         Color names are taken from the
         <a class="text-blue-600" href="https://github.com/meodai/color-names">
-          Color Names API
+          Color Names API.
+        </a>
+        Favicon by
+        <a
+          class="text-blue-600"
+          href="https://www.iconfinder.com/icons/1054963/swatches_palette_icon"
+        >
+          Nick Roach.
         </a>
       </div>
     </div>
