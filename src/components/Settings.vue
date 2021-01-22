@@ -2,7 +2,7 @@
   <div>
     <div
       id="backdrop-blur"
-      class="fixed select-none flex flex-col m-auto md:mx-10 h-12/12 w-10/12 md:w-96 rounded-3xl md:p-10 p-14 z-50 border-gray-300 border border-opacity-20 shadow-xl"
+      class="fixed select-none flex flex-col m-auto md:mx-10 h-5/6 md:h-auto w-10/12 md:w-96 rounded-3xl md:p-10 p-14 z-50 border-gray-300 border border-opacity-20 shadow-xl"
     >
       <div v-if="aboutShow" class="h-full section">
         <About class="h-full w-full" />
@@ -102,7 +102,7 @@
             </label>
           </div>
         </div>
-                <div class="section h-16">
+        <div class="section h-16">
           <label for="color-model" class="section-title"
             >Shades quantity
           </label>
