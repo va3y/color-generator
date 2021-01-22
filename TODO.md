@@ -8,4 +8,4 @@
 - [x] add animation 
 - [x] add another contrasting font color for dark setting
 - [x] create an about page
-- [ ] fill an about page
+- [x] fill an about page

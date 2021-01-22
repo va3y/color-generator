@@ -102,9 +102,9 @@
             </label>
           </div>
         </div>
-        <div class="section h-16">
+                <div class="section h-16">
           <label for="color-model" class="section-title"
-            >Number of colors
+            >Shades quantity
           </label>
           <input
             class="slider"
@@ -195,7 +195,6 @@
         />
       </div>
     </div>
-    
   </div>
 </template>
 
