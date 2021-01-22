@@ -1,6 +1,7 @@
 <template>
+  <div class="flex flex-col h-screen mt-14">
   <div
-    class="flex flex-col justify-center min-h-0 flex-grow text-left"
+    class="flex flex-col justify-center flex-grow text-left"
     v-for="(bar, index) in colorsArr"
     :key="index"
     :style="'background-color: rgb(' + bar + ')'"
@@ -9,14 +10,15 @@
       <div
         v-if="showColorNames"
         class="cursor-pointer ml-8 flex flex-col align-right fixed"
+        :class="[detectDarkMode() ? '' : 'text-gray-400']"
         @click="copy(index, getColorCode(bar))"
       >
         <div class="">
           {{ getColorCode(bar) }}
           <transition name="fade">
-          <span class="ml-4" v-if="copyLabelShow[index]">
-            Copied to the clipboard
-          </span>
+            <span class="ml-4" v-if="copyLabelShow[index]">
+              Copied to the clipboard
+            </span>
           </transition>
         </div>
         <div class="">
@@ -24,7 +26,11 @@
         </div>
       </div>
     </transition>
+    
   </div>
+  </div>
+
+  <slot/>
 </template>
 
 <script>
@@ -65,7 +71,10 @@ export default {
     };
     findColorName();
 
-    watch(colorsArr, findColorName);
+    watch(colorsArr, () => {
+      findColorName();
+      darkMode.value = detectDarkMode();
+    });
 
     const getColorName = (index) => {
       try {
@@ -104,9 +113,15 @@ export default {
       setTimeout(() => {
         copyLabelShow.value[index] = false;
       }, 1000);
-      
     };
 
+    const detectDarkMode = () => {
+      const lightnness = chroma(props.colorsArr[2]).luminance();
+      console.log("lightnness", lightnness);
+      if (lightnness > 0.1) return true;
+      return false;
+    };
+    const darkMode = ref(detectDarkMode());
     return {
       getBackGroundStyle,
       findColorName,
@@ -116,6 +131,7 @@ export default {
       getColorCode,
       copyLabelShow,
       copy,
+      detectDarkMode,
     };
   },
 };

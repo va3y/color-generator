@@ -14,12 +14,13 @@
     ]"
   >
     <div class="flex flex-col h-4/5 m-auto w-4/5 md:w-3/5">
-      <Bars :colorsArr="colorsArr" :colorCode="colorCode"> </Bars>
-      <Buttons
-        @changeBgShow="showSettings = !showSettings"
-        @reroll="reroll()"
-        v-model="showSettings"
-      />
+      <Bars :colorsArr="colorsArr" :colorCode="colorCode">
+        <Buttons
+          @changeBgShow="showSettings = !showSettings"
+          @reroll="reroll()"
+          v-model="showSettings"
+        />
+      </Bars>
     </div>
     <Settings
       v-show="showSettings"

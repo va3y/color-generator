@@ -10,11 +10,11 @@
       <h2 class="text-xl pt-8 pb-2">Credits</h2>
       <div>
         The project is greatly inspired by the similar color palette generator
-        by David Aerne: <a class="text-blue-600" href="farbvelo.elastiq.ch">farbvelo.elastiq.ch</a>
+        by David Aerne: <a class="text-blue-600" href="https://farbvelo.elastiq.ch">farbvelo.elastiq.ch</a>
         <br />
         <br />
-        Icons taken from
-        <a class="text-blue-600" href="https://thenounproject.com/">The Noun Project</a>
+        Icons taken from the
+        <a class="text-blue-600" href="https://thenounproject.com/">Noun Project</a>
         <br>
         <br>
         Color names are taken from the <a class="text-blue-600" href="https://github.com/meodai/color-names"> Color Names API </a>

@@ -4,9 +4,9 @@
       id="backdrop-blur"
       class="fixed select-none flex flex-col m-auto md:mx-10 h-12/12 w-10/12 md:w-96 rounded-3xl md:p-10 p-14 z-50 border-gray-300 border border-opacity-20 shadow-xl"
     >
-    <div  v-if="aboutShow" class="h-full section">
-      <About class="h-full w-full" />
-    </div>
+      <div v-if="aboutShow" class="h-full section">
+        <About class="h-full w-full" />
+      </div>
       <div v-else>
         <div class="h-28 section">
           <div class="section-title">Color harmony</div>
@@ -180,20 +180,22 @@
             class="m-auto w-1/2 bg-white bg-opacity-20 rounded-lg active:bg-gray-300 h-12"
           >
             Generate
+            <div class="text-xs opacity-40">or press the [space] bar</div>
           </button>
         </div>
       </div>
+      <div
+        class="left-24 bottom-32 z-50 md:bottom-36 md:left-20 flex flex-row mx-2"
+      >
+        <img
+          @click="changeAboutShow()"
+          src="../assets/icons/question.svg"
+          alt="question mark"
+          class="cursor-pointer opacity-50 w-7 h-7 md:w-5 md:h-5"
+        />
+      </div>
     </div>
-    <div
-      class="absolute left-24 bottom-32 z-50 md:bottom-36 md:left-20 flex flex-row-reverse mx-2"
-    >
-      <img
-        @click="changeAboutShow()"
-        src="../assets/icons/question.svg"
-        alt="question mark"
-        class="cursor-pointer opacity-50 w-7 h-7 md:w-5 md:h-5"
-      />
-    </div>
+    
   </div>
 </template>
 

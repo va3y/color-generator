@@ -1,9 +1,9 @@
 <template>
   <div
-    class="absolute flex w-36 h-14 bottom-14 right-1/4 cursor-pointer z-50"
+    class="relative place-self-end bottom-8 flex items-end w-36 h-14 cursor-pointer z-50"
   >
     <label
-      class="flex bg-gray-300 mr-2 w-14 h-14 rounded-full justify-center bg-opacity-90"
+      class="flex bg-gray-300 mr-2 w-14 h-14 rounded-full justify-center bg-opacity-30"
     >
       <img
         src="../assets/icons/settings.svg"
@@ -22,14 +22,12 @@
     </label>
 
      <label
-      class="flex bg-gray-300 w-14 h-14 rounded-full justify-center bg-opacity-90"
+      class="flex bg-gray-300 w-14 h-14 rounded-full justify-center align-middle bg-opacity-30"
     >
       <img
-        src="../assets/icons/dice.svg"
+        src="../assets/icons/refresh.svg"
         alt="reroll"
-        height="20"
-        width="30"
-        class="z-50 w-8 h-8 self-center mt-1 cursor-pointer fill-current text-green-200"
+        class="z-50 w-7 h-7 self-center sefl-center cursor-pointer fill-current text-green-200"
       />
       <button
         class="hidden"
@@ -59,5 +57,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.buttons-position {
+  right: 30%;
+  bottom: 8%;
+}
+
+
 </style>
