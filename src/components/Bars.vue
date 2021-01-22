@@ -1,36 +1,36 @@
 <template>
-  <div class="flex flex-col h-screen mt-14">
-  <div
-    class="flex flex-col justify-center flex-grow text-left"
-    v-for="(bar, index) in colorsArr"
-    :key="index"
-    :style="'background-color: rgb(' + bar + ')'"
-  >
-    <transition name="fade">
-      <div
-        v-if="showColorNames"
-        class="cursor-pointer ml-8 flex flex-col align-right fixed"
-        :class="[detectDarkMode() ? '' : 'text-gray-400']"
-        @click="copy(index, getColorCode(bar))"
-      >
-        <div class="">
-          {{ getColorCode(bar) }}
-          <transition name="fade">
-            <span class="ml-4" v-if="copyLabelShow[index]">
-              Copied to the clipboard
-            </span>
-          </transition>
+  <div class="flex flex-col h-5/6 mt-14">
+    <div
+      class="flex flex-col justify-center flex-grow text-left"
+      v-for="(bar, index) in colorsArr"
+      :key="index"
+      :style="'background-color: rgb(' + bar + ')'"
+    >
+      <transition name="fade">
+        <div
+          v-if="showColorNames"
+          class="cursor-pointer ml-8 flex flex-col align-right fixed"
+          :class="[detectDarkMode() ? '' : 'text-gray-400']"
+          @click="copy(index, getColorCode(bar))"
+        >
+          <div class="">
+            {{ getColorCode(bar) }}
+            <transition name="fade">
+              <span class="ml-4" v-if="copyLabelShow[index]">
+                Copied to the clipboard
+              </span>
+            </transition>
+          </div>
+          <div class="">
+            {{ getColorName(index) }}
+          </div>
         </div>
-        <div class="">
-          {{ getColorName(index) }}
-        </div>
-      </div>
-    </transition>
-    
+      </transition>
+    </div>
   </div>
+  <div class="flex justify-end">
+    <slot class="flex justify-end place-self-end" />
   </div>
-
-  <slot/>
 </template>
 
 <script>

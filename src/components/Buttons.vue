@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative place-self-end bottom-8 flex items-end w-36 h-14 cursor-pointer z-50"
+    class="relative bottom-8 flex items-end w-36 h-14 cursor-pointer z-50"
   >
     <label
       class="flex bg-gray-300 mr-2 w-14 h-14 rounded-full justify-center bg-opacity-30"
