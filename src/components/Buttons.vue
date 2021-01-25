@@ -27,7 +27,7 @@
       <img
         src="../assets/icons/refresh.svg"
         alt="reroll"
-        class="z-50 w-7 h-7 self-center sefl-center cursor-pointer fill-current text-green-200"
+        class="z-50 w-7 h-7 self-center cursor-pointer fill-current text-green-200"
       />
       <button
         class="hidden"
